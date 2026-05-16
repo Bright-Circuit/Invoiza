@@ -40,6 +40,7 @@ const COUNTRIES = [
 ];
 
 const USER_TYPES = ["Super Admin", "Admin", "User", "Manager"];
+const DEFAULT_COMPANY_LOGO = "/images/company-logo-default.svg";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -102,9 +103,9 @@ export default function SettingsPage() {
             businessNumber: data.businessNumber || "+94 71 195 0429",
             taxId: data.taxId || "OXY12-TAX-001",
           });
-          if (data.logoBase64) {
-            setCompanyLogo(data.logoBase64);
-          }
+            if (data.logoBase64) {
+              setCompanyLogo(data.logoBase64);
+            }
         }
       } catch (error) {
         console.error("Error fetching company data:", error);
@@ -159,7 +160,7 @@ export default function SettingsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...companyData,
-          logoBase64: companyLogo,
+          ...(companyLogo ? { logoBase64: companyLogo } : {}),
         }),
       });
 
@@ -674,7 +675,15 @@ export default function SettingsPage() {
                   }}
                 />
               ) : (
-                companyData.companyId?.substring(0, 2).toUpperCase()
+                <img
+                  src={DEFAULT_COMPANY_LOGO}
+                  alt="Default Company Logo"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
               )}
             </Box>
             <input
