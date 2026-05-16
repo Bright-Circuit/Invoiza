@@ -1,5 +1,8 @@
-<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="160" height="160" rx="80" fill="#FBBF24"/>
-  <circle cx="80" cy="80" r="52" fill="#111827" opacity="0.08"/>
-  <path d="M47 98V62H57.8L77 86.8L96.2 62H107V98H96.4V77.8L79.2 99.6H74.8L57.6 77.8V98H47Z" fill="#FFFFFF"/>
+<svg width="320" height="160" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="8" width="304" height="144" rx="28" fill="#111827"/>
+  <rect x="18" y="18" width="284" height="124" rx="22" fill="#1F2937"/>
+  <path d="M52 108V52H67.8L91.4 84.2L115.1 52H130.8V108H115.2V74.4L92.6 105.1H89.9L67.3 74.4V108H52Z" fill="#FBBF24"/>
+  <rect x="155" y="56" width="108" height="14" rx="7" fill="#FBBF24"/>
+  <rect x="155" y="82" width="86" height="10" rx="5" fill="#F9FAFB" opacity="0.92"/>
+  <rect x="155" y="102" width="64" height="10" rx="5" fill="#F9FAFB" opacity="0.72"/>
 </svg>

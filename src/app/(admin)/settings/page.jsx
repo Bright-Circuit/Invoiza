@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const COUNTRIES = [
   "United States",
@@ -86,8 +85,6 @@ export default function SettingsPage() {
     taxId: "OXY12-TAX-001",
   });
 
-  const [companyLogo, setCompanyLogo] = useState(null);
-
   // Fetch company data on component mount
   useEffect(() => {
     const fetchCompanyData = async () => {
@@ -103,9 +100,6 @@ export default function SettingsPage() {
             businessNumber: data.businessNumber || "+94 71 195 0429",
             taxId: data.taxId || "OXY12-TAX-001",
           });
-            if (data.logoBase64) {
-              setCompanyLogo(data.logoBase64);
-            }
         }
       } catch (error) {
         console.error("Error fetching company data:", error);
@@ -137,17 +131,6 @@ export default function SettingsPage() {
     setCompanyData({ ...companyData, [name]: value });
   };
 
-  const handleLogoUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCompanyLogo(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSaveChanges = async () => {
     setSaving(true);
     setErrorMessage("");
@@ -160,7 +143,7 @@ export default function SettingsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...companyData,
-          ...(companyLogo ? { logoBase64: companyLogo } : {}),
+          logoBase64: DEFAULT_COMPANY_LOGO,
         }),
       });
 
@@ -634,7 +617,7 @@ export default function SettingsPage() {
 
       {/* ─── Company Tab ─────────────────────────────────────────────────────────── */}
       <TabPanel value={tabValue} index={2}>
-        {/* Company Logo Upload & Info */}
+        {/* Company Logo & Info */}
         <Box
           sx={{
             display: "flex",
@@ -650,68 +633,27 @@ export default function SettingsPage() {
           >
             <Box
               sx={{
-                width: 80,
-                height: 80,
-                borderRadius: "50%",
-                backgroundColor: companyLogo ? "#f3f4f6" : "#fbbf24",
+                width: 120,
+                height: 72,
+                borderRadius: "16px",
+                backgroundColor: "#f3f4f6",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "white",
-                fontSize: "32px",
-                fontWeight: 600,
                 overflow: "hidden",
                 border: "2px solid #e5e7eb",
               }}
             >
-              {companyLogo ? (
-                <img
-                  src={companyLogo}
-                  alt="Company Logo"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              ) : (
-                <img
-                  src={DEFAULT_COMPANY_LOGO}
-                  alt="Default Company Logo"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              )}
-            </Box>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleLogoUpload}
-              style={{ display: "none" }}
-              id="logo-upload"
-            />
-            <label htmlFor="logo-upload">
-              <IconButton
-                component="span"
-                sx={{
-                  position: "absolute",
-                  bottom: -10,
-                  right: -10,
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  width: 30,
-                  height: 30,
-                  "&:hover": {
-                    backgroundColor: "primary.hover",
-                  },
+              <img
+                src={DEFAULT_COMPANY_LOGO}
+                alt="Company Logo"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
                 }}
-              >
-                <CloudUploadIcon sx={{ fontSize: 15 }} />
-              </IconButton>
-            </label>
+              />
+            </Box>
           </Box>
           <Box>
             <Typography

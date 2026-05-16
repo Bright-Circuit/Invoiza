@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { readJsonFile, writeJsonFile, ensureJsonFile } from '../../../lib/fileStore';
 
 const companyFileName = 'company.json';
+const DEFAULT_COMPANY_LOGO = '/images/company-logo-default.svg';
 
 // Ensure the file exists in writable dir and seed from project data
 function ensureFile() {
@@ -11,7 +12,7 @@ function ensureFile() {
     companyEmail: 'oxy2welve@gmail.com',
     businessNumber: '+94 71 195 0429',
     taxId: 'OXY12-TAX-001',
-    logoBase64: null,
+    logoBase64: DEFAULT_COMPANY_LOGO,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   });
@@ -22,6 +23,7 @@ export async function GET() {
   try {
     ensureFile();
     const jsonData = readJsonFile(companyFileName) || {};
+    jsonData.logoBase64 = DEFAULT_COMPANY_LOGO;
     return NextResponse.json(jsonData, { status: 200 });
   } catch (error) {
     console.error('Error reading company data:', error);
@@ -53,7 +55,7 @@ export async function PUT(request) {
       companyEmail: body.companyEmail || jsonData.companyEmail,
       businessNumber: body.businessNumber || jsonData.businessNumber,
       taxId: body.taxId || jsonData.taxId,
-      logoBase64: body.logoBase64 !== undefined ? body.logoBase64 : jsonData.logoBase64,
+      logoBase64: DEFAULT_COMPANY_LOGO,
       createdAt: jsonData.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };

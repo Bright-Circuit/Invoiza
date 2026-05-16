@@ -2,6 +2,61 @@ import { jsPDF } from 'jspdf';
 // eslint-disable-next-line no-unused-vars
 import autoTable from 'jspdf-autotable';
 
+const DEFAULT_COMPANY_LOGO = '/images/company-logo-default.svg';
+
+const toBase64 = (value) => {
+  if (typeof window === 'undefined') return null;
+
+  return window.btoa(
+    unescape(encodeURIComponent(value))
+  );
+};
+
+const logoSourceToPngDataUrl = async (logoSource) => {
+  const source = logoSource || DEFAULT_COMPANY_LOGO;
+
+  if (!source) return null;
+  if (source.startsWith('data:image/png')) return source;
+
+  let svgText = '';
+
+  if (source.startsWith('data:image/svg+xml')) {
+    const commaIndex = source.indexOf(',');
+    if (commaIndex === -1) return null;
+    const encoded = source.slice(commaIndex + 1);
+    try {
+      svgText = decodeURIComponent(escape(window.atob(encoded)));
+    } catch {
+      svgText = window.atob(encoded);
+    }
+  } else {
+    const response = await fetch(source);
+    svgText = await response.text();
+  }
+
+  const svgDataUrl = `data:image/svg+xml;base64,${toBase64(svgText)}`;
+
+  return await new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth || image.width || 160;
+      canvas.height = image.naturalHeight || image.height || 160;
+
+      const context = canvas.getContext('2d');
+      if (!context) {
+        resolve(svgDataUrl);
+        return;
+      }
+
+      context.drawImage(image, 0, 0);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    image.onerror = reject;
+    image.src = svgDataUrl;
+  });
+};
+
 /**
  * Generate an invoice PDF with company details and items
  * @param {Object} invoiceData - Invoice data containing items, totals, etc.
@@ -24,10 +79,12 @@ export const generateInvoicePDF = async (invoiceData, companyData, customerData)
     const logoWidth = 40;
     const logoHeight = 16;
 
-    if (companyData?.logoBase64) {
+    const companyLogo = await logoSourceToPngDataUrl(companyData?.logoBase64);
+
+    if (companyLogo) {
       try {
         doc.addImage(
-          companyData.logoBase64,
+          companyLogo,
           'PNG',
           margin,
           yPosition,
@@ -235,10 +292,12 @@ export const generateQuotationPDF = async (quotationData, companyData, customerD
     const logoWidth = 40;
     const logoHeight = 16;
 
-    if (companyData?.logoBase64) {
+    const companyLogo = await logoSourceToPngDataUrl(companyData?.logoBase64);
+
+    if (companyLogo) {
       try {
         doc.addImage(
-          companyData.logoBase64,
+          companyLogo,
           'PNG',
           margin,
           yPosition,
