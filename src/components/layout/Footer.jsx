@@ -172,17 +172,20 @@ export default function Footer() {
               <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style={{ height: 15 }} />
             </Box>
             <Box sx={{ bgcolor: 'white', px: 1, py: 1, borderRadius: 1, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 60, height: 36 }}>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Google_Pay_Logo.svg" alt="Google Pay" style={{ height: 15 }} />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" style={{ height: 15 }} />
             </Box>
             <Box sx={{ bgcolor: 'white', px: 1, py: 1, borderRadius: 1, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 60, height: 36 }}>
               <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style={{ height: 15 }} />
             </Box>
             <Box sx={{ bgcolor: 'white', px: 1, py: 1, borderRadius: 1, border: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 60, height: 36 }}>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" style={{ height: 15 }} />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style={{ height: 15 }} />
             </Box>
           </Box>
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem', textAlign: 'center' }}>
-            © 2025 Invoiza. All rights reserved. Developed By OXY12
+            © 2025 Invoiza. All rights reserved. Developed By{' '}
+            <a href="https://oxy12.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', verticalAlign: 'middle', marginLeft: 6 }}>
+              <img src="/images/CompanyLogo.webp" alt="OXY12" style={{ height: 40, display: 'inline-block' }} />
+            </a>
           </Typography>
         </Box>
       </Container>
