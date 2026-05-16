@@ -1,23 +1,16 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import { readJsonFile, writeJsonFile } from '../../../lib/fileStore';
 
-const inquiriesFilePath = path.join(process.cwd(), 'src', 'data', 'inquiry.json');
+const inquiriesFileName = 'inquiry.json';
 
-// Helper to read inquiries
+// Helper to read/write inquiries
 function readInquiries() {
-  try {
-    const data = fs.readFileSync(inquiriesFilePath, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    return { inquiries: [] };
-  }
+  return readJsonFile(inquiriesFileName) || { inquiries: [] };
 }
 
-// Helper to write inquiries
 function writeInquiries(data) {
-  fs.writeFileSync(inquiriesFilePath, JSON.stringify(data, null, 2));
+  writeJsonFile(inquiriesFileName, data);
 }
 
 // Get the next inquiry number

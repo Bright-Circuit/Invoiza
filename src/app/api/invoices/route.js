@@ -1,23 +1,16 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import { readJsonFile, writeJsonFile } from '../../../lib/fileStore';
 
-const invoicesFilePath = path.join(process.cwd(), 'src', 'data', 'invoices.json');
+const invoicesFileName = 'invoices.json';
 
-// Helper to read invoices
+// Helper to read/write invoices
 function readInvoices() {
-  try {
-    const data = fs.readFileSync(invoicesFilePath, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    return { invoices: [] };
-  }
+  return readJsonFile(invoicesFileName) || { invoices: [] };
 }
 
-// Helper to write invoices
 function writeInvoices(data) {
-  fs.writeFileSync(invoicesFilePath, JSON.stringify(data, null, 2));
+  writeJsonFile(invoicesFileName, data);
 }
 
 // Get the next invoice number

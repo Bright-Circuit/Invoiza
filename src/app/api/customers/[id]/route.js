@@ -1,15 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
-
-const customersFilePath = path.join(process.cwd(), 'src', 'data', 'customers.json');
+import { readJsonFile, writeJsonFile } from '../../../../lib/fileStore';
 
 // PUT: Update a customer by ID
 export async function PUT(request, { params }) {
   try {
     const { id } = params;
-    const data = fs.readFileSync(customersFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile('customers.json') || { customers: [] };
 
     const customerIndex = jsonData.customers.findIndex((c) => c.id === id);
     if (customerIndex === -1) {
@@ -29,7 +25,7 @@ export async function PUT(request, { params }) {
     };
 
     jsonData.customers[customerIndex] = updatedCustomer;
-    fs.writeFileSync(customersFilePath, JSON.stringify(jsonData, null, 2));
+    writeJsonFile('customers.json', jsonData);
 
     return NextResponse.json(updatedCustomer, { status: 200 });
   } catch (error) {
@@ -45,8 +41,7 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   try {
     const { id } = params;
-    const data = fs.readFileSync(customersFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile('customers.json') || { customers: [] };
 
     const customerIndex = jsonData.customers.findIndex((c) => c.id === id);
     if (customerIndex === -1) {
@@ -57,7 +52,7 @@ export async function DELETE(request, { params }) {
     }
 
     jsonData.customers.splice(customerIndex, 1);
-    fs.writeFileSync(customersFilePath, JSON.stringify(jsonData, null, 2));
+    writeJsonFile('customers.json', jsonData);
 
     return NextResponse.json({ message: 'Customer deleted successfully' }, { status: 200 });
   } catch (error) {

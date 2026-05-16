@@ -1,38 +1,27 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import { readJsonFile, writeJsonFile, ensureJsonFile } from '../../../lib/fileStore';
 
-const companyFilePath = path.join(process.cwd(), 'src', 'data', 'company.json');
+const companyFileName = 'company.json';
 
-// Ensure the file exists
+// Ensure the file exists in writable dir and seed from project data
 function ensureFile() {
-  if (!fs.existsSync(companyFilePath)) {
-    fs.writeFileSync(
-      companyFilePath,
-      JSON.stringify(
-        {
-          companyId: 'OXY12',
-          companyName: 'OXY12',
-          companyEmail: 'oxy2welve@gmail.com',
-          businessNumber: '+94 71 195 0429',
-          taxId: 'OXY12-TAX-001',
-          logoBase64: null,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        null,
-        2
-      )
-    );
-  }
+  ensureJsonFile(companyFileName, {
+    companyId: 'OXY12',
+    companyName: 'OXY12',
+    companyEmail: 'oxy2welve@gmail.com',
+    businessNumber: '+94 71 195 0429',
+    taxId: 'OXY12-TAX-001',
+    logoBase64: null,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  });
 }
 
 // GET: Fetch company data
 export async function GET() {
   try {
     ensureFile();
-    const data = fs.readFileSync(companyFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile(companyFileName) || {};
     return NextResponse.json(jsonData, { status: 200 });
   } catch (error) {
     console.error('Error reading company data:', error);
@@ -54,8 +43,7 @@ export async function PUT(request) {
       );
     }
 
-    const data = fs.readFileSync(companyFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile(companyFileName) || {};
 
     // Update company data
     const updatedCompany = {
@@ -70,7 +58,7 @@ export async function PUT(request) {
       updatedAt: new Date().toISOString(),
     };
 
-    fs.writeFileSync(companyFilePath, JSON.stringify(updatedCompany, null, 2));
+    writeJsonFile(companyFileName, updatedCompany);
 
     return NextResponse.json(updatedCompany, { status: 200 });
   } catch (error) {

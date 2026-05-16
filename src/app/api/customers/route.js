@@ -1,22 +1,16 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import { readJsonFile, writeJsonFile, ensureJsonFile } from '../../../lib/fileStore';
 
-const customersFilePath = path.join(process.cwd(), 'src', 'data', 'customers.json');
-
-// Ensure the file exists
+// Ensure the file exists (in writable temp dir) and seed from project data
 function ensureFile() {
-  if (!fs.existsSync(customersFilePath)) {
-    fs.writeFileSync(customersFilePath, JSON.stringify({ customers: [] }, null, 2));
-  }
+  ensureJsonFile('customers.json', { customers: [] });
 }
 
 // GET: Fetch all customers
 export async function GET() {
   try {
     ensureFile();
-    const data = fs.readFileSync(customersFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile('customers.json') || { customers: [] };
     return NextResponse.json(jsonData.customers || [], { status: 200 });
   } catch (error) {
     console.error('Error reading customers:', error);
@@ -38,8 +32,7 @@ export async function POST(request) {
       );
     }
 
-    const data = fs.readFileSync(customersFilePath, 'utf-8');
-    const jsonData = JSON.parse(data);
+    const jsonData = readJsonFile('customers.json') || { customers: [] };
     
     // Create new customer object with unique ID
     const newCustomer = {
@@ -56,7 +49,7 @@ export async function POST(request) {
     };
 
     jsonData.customers.push(newCustomer);
-    fs.writeFileSync(customersFilePath, JSON.stringify(jsonData, null, 2));
+    writeJsonFile('customers.json', jsonData);
     
     return NextResponse.json(newCustomer, { status: 201 });
   } catch (error) {

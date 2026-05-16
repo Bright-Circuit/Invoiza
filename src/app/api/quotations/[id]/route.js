@@ -1,22 +1,13 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import { readJsonFile, writeJsonFile } from '../../../../lib/fileStore';
 
-const quotationsFilePath = path.join(process.cwd(), 'src', 'data', 'quotations.json');
-
-// Helper to read quotations
+// Helper to read/write quotations
 function readQuotations() {
-  try {
-    const data = fs.readFileSync(quotationsFilePath, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    return { quotations: [] };
-  }
+  return readJsonFile('quotations.json') || { quotations: [] };
 }
 
-// Helper to write quotations
 function writeQuotations(data) {
-  fs.writeFileSync(quotationsFilePath, JSON.stringify(data, null, 2));
+  writeJsonFile('quotations.json', data);
 }
 
 // GET: Fetch a quotation by ID
