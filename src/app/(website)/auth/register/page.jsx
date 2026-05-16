@@ -72,9 +72,6 @@ export default function RegisterPage() {
           <Typography variant="h4" gutterBottom textAlign="center">
             Create Account
           </Typography>
-          <Typography variant="body2" color="text.secondary" textAlign="center" paragraph>
-            Join Beyos Clothing today
-          </Typography>
 
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Input

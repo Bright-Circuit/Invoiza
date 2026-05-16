@@ -55,7 +55,7 @@ export default function WebsiteFooter() {
           {/* Brand */}
           <Grid item xs={12} md={3}>
             <Typography variant="h6" gutterBottom fontWeight={700}>
-              Beyos Clothing
+              Invoiza
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
               Premium fashion and luxury apparel for the modern individual.

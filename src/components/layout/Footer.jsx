@@ -34,10 +34,10 @@ export default function Footer() {
           {/* Company Info */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, fontSize: '1.25rem' }}>
-              BEYOS <Box component="span" sx={{ color: '#ff8c42' }}>CLOTHING</Box>
+              Invoiza <Box component="span" sx={{ color: '#ff8c42' }}></Box>
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, fontSize: '0.875rem' }}>
-              hello@beyosclothing.com
+              hello@invoiza.com
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600, mb: 2, fontSize: '0.95rem' }}>
               +02 036 038 3996
@@ -64,21 +64,21 @@ export default function Footer() {
                   Our Blog
                 </Typography>
               </Link>
-              <Link href="/returns" style={{ textDecoration: 'none' }}>
+              {/* <Link href="/returns" style={{ textDecoration: 'none' }}>
                 <Typography variant="body2" sx={{ color: 'text.secondary', '&:hover': { color: '#ff8c42' }, cursor: 'pointer', fontSize: '0.875rem' }}>
                   Start a Return
                 </Typography>
-              </Link>
+              </Link> */}
               <Link href="/contact" style={{ textDecoration: 'none' }}>
                 <Typography variant="body2" sx={{ color: 'text.secondary', '&:hover': { color: '#ff8c42' }, cursor: 'pointer', fontSize: '0.875rem' }}>
                   Contact Us
                 </Typography>
               </Link>
-              <Link href="/faq" style={{ textDecoration: 'none' }}>
+              {/* <Link href="/faq" style={{ textDecoration: 'none' }}>
                 <Typography variant="body2" sx={{ color: 'text.secondary', '&:hover': { color: '#ff8c42' }, cursor: 'pointer', fontSize: '0.875rem' }}>
                   Shipping FAQ
                 </Typography>
-              </Link>
+              </Link> */}
             </Box>
           </Grid>
 
@@ -182,7 +182,7 @@ export default function Footer() {
             </Box>
           </Box>
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem', textAlign: 'center' }}>
-            © 2025 BeyosClothing. All rights reserved.
+            © 2025 Invoiza. All rights reserved. Developed By OXY12
           </Typography>
         </Box>
       </Container>
